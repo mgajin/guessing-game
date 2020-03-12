@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="673235e0-392f-4512-8bdc-a1d8c65b2ee6" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -46,7 +45,20 @@
     <property name="project.structure.side.proportion" value="0.0" />
     <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.ClientRunner">
+    <configuration name="ClientRunner" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="client.ClientRunner" />
+      <module name="guessing-game" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="client.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="ServerRunner" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="server.ServerRunner" />
       <module name="guessing-game" />
@@ -62,6 +74,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.ClientRunner" />
         <item itemvalue="Application.ServerRunner" />
       </list>
     </recent_temporary>
@@ -76,7 +89,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1584038065069</updated>
-      <workItem from="1584038067077" duration="6510000" />
+      <workItem from="1584038067077" duration="7301000" />
     </task>
     <servers />
   </component>
@@ -88,22 +101,22 @@
       <screen x="0" y="0" width="1920" height="2160" />
     </state>
     <state x="772" y="1342" key="#com.intellij.ide.util.MemberChooser/0.0.1920.2160@0.0.1920.2160" timestamp="1584044383821" />
-    <state width="1874" height="265" key="GridCell.Tab.0.bottom" timestamp="1584042453344">
+    <state width="1874" height="265" key="GridCell.Tab.0.bottom" timestamp="1584046187325">
       <screen x="0" y="0" width="1920" height="2160" />
     </state>
-    <state width="1874" height="265" key="GridCell.Tab.0.bottom/0.0.1920.2160@0.0.1920.2160" timestamp="1584042453344" />
-    <state width="1874" height="265" key="GridCell.Tab.0.center" timestamp="1584042453343">
+    <state width="1874" height="265" key="GridCell.Tab.0.bottom/0.0.1920.2160@0.0.1920.2160" timestamp="1584046187325" />
+    <state width="1874" height="265" key="GridCell.Tab.0.center" timestamp="1584046187324">
       <screen x="0" y="0" width="1920" height="2160" />
     </state>
-    <state width="1874" height="265" key="GridCell.Tab.0.center/0.0.1920.2160@0.0.1920.2160" timestamp="1584042453343" />
-    <state width="1874" height="265" key="GridCell.Tab.0.left" timestamp="1584042453343">
+    <state width="1874" height="265" key="GridCell.Tab.0.center/0.0.1920.2160@0.0.1920.2160" timestamp="1584046187324" />
+    <state width="1874" height="265" key="GridCell.Tab.0.left" timestamp="1584046187323">
       <screen x="0" y="0" width="1920" height="2160" />
     </state>
-    <state width="1874" height="265" key="GridCell.Tab.0.left/0.0.1920.2160@0.0.1920.2160" timestamp="1584042453343" />
-    <state width="1874" height="265" key="GridCell.Tab.0.right" timestamp="1584042453343">
+    <state width="1874" height="265" key="GridCell.Tab.0.left/0.0.1920.2160@0.0.1920.2160" timestamp="1584046187323" />
+    <state width="1874" height="265" key="GridCell.Tab.0.right" timestamp="1584046187324">
       <screen x="0" y="0" width="1920" height="2160" />
     </state>
-    <state width="1874" height="265" key="GridCell.Tab.0.right/0.0.1920.2160@0.0.1920.2160" timestamp="1584042453343" />
+    <state width="1874" height="265" key="GridCell.Tab.0.right/0.0.1920.2160@0.0.1920.2160" timestamp="1584046187324" />
     <state x="460" y="1258" key="SettingsEditor" timestamp="1584040356866">
       <screen x="0" y="0" width="1920" height="2160" />
     </state>
