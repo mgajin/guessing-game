@@ -3,6 +3,7 @@ package client;
 import java.io.IOException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class ClientRunner {
 
@@ -11,10 +12,14 @@ public class ClientRunner {
 
     public static void main(String[] args) {
 
-        ScheduledExecutorService executor = Executors.newScheduledThreadPool(10);
+        ScheduledExecutorService executor = Executors.newScheduledThreadPool(5);
 
         try {
-            executor.submit(new Client(HOST, PORT));
+
+            for (int i = 0; i < 10; i++) {
+                executor.schedule(new Client(HOST, PORT), 500, TimeUnit.MILLISECONDS);
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

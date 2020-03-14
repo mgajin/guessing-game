@@ -8,6 +8,7 @@ import model.Result;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Random;
 import java.util.UUID;
 
 public class Client implements Runnable {
@@ -36,29 +37,39 @@ public class Client implements Runnable {
         }
     }
 
+    public void sendRequest(Request request) {
+        String requestString = gson.toJson(request);
+        out.println(requestString);
+    }
+
     @Override
     public void run() {
-        try {
-            UUID id = UUID.randomUUID();
-            Request request = new Request();
-            request.setId(id);
-            request.setAction(Action.REQUEST_CHAIR);
-            String requestString = gson.toJson(request);
-//            Send request to server
-            out.println(requestString);
-//            Get response from server
-            Response response = gson.fromJson(in.readLine(), Response.class);
+        UUID id = UUID.randomUUID();
+        Request request = new Request();
+        request.setId(id);
 
-            if (response.getResult() == Result.SUCCESS) {
-                System.out.println("Player: " + id.toString() + " connected");
-            } else {
-                System.out.println("Player: " + id.toString() + " can't access the table");
+        while (true) {
+            try {
+                request.setAction(Action.REQUEST_CHAIR);
+                sendRequest(request);
+
+                Response response = gson.fromJson(in.readLine(), Response.class);
+
+                if (response.getResult() == Result.SUCCESS) {
+                    System.out.println("Player: " + id.toString() + " took a seat");
+                    Thread.sleep(new Random().nextInt(1000));
+                    request.setAction(Action.LEAVE);
+                    sendRequest(request);
+                    break;
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            close();
         }
+
+        close();
     }
 }

@@ -1,6 +1,7 @@
 package server;
 
 import com.google.gson.Gson;
+import model.Action;
 import model.Request;
 import model.Response;
 import model.Result;
@@ -10,13 +11,15 @@ import java.net.Socket;
 
 public class Server implements Runnable {
 
+    private Table table;
     private Socket socket;
     private BufferedReader in;
     private PrintWriter out;
 
     private Gson gson;
 
-    public Server(Socket socket) throws IOException {
+    public Server(Socket socket, Table table) throws IOException {
+        this.table = table;
         this.socket = socket;
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()), true);
@@ -46,19 +49,29 @@ public class Server implements Runnable {
 
     @Override
     public void run() {
-        try {
-            Request request = getRequest();
+        Response response = new Response();
 
-            Player player = new Player(request.getId());
+        while (true) {
+            try {
+                Request request = getRequest();
+                Player player = new Player(request.getId());
 
-            Response response = new Response();
-            response.setResult(Result.FAILURE);
+                if (request.getAction() == Action.REQUEST_CHAIR) {
+                    if (table.acquireSeat()) {
+                        response.setResult(Result.SUCCESS);
+                        sendResponse(response);
+                    }
+                } else if (request.getAction() == Action.LEAVE) {
+                    System.out.println("Leaving...");
+                    table.releaseSeat();
+                    break;
+                }
 
-            sendResponse(response);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+
+        close();
     }
 }

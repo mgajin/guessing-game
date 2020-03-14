@@ -14,12 +14,11 @@ public class ServerRunner {
 
         ServerSocket serverSocket = new ServerSocket(PORT);
         ExecutorService executor = Executors.newCachedThreadPool();
-
-        System.out.println("Server running on port: " + PORT);
+        Table table = new Table(6);
 
         while (true) {
             Socket socket = serverSocket.accept();
-            executor.submit(new Server(socket));
+            executor.submit(new Server(socket, table));
         }
 
 //        executor.shutdown();
