@@ -65,6 +65,8 @@ public class Client implements Runnable {
                 request.setAction(Action.GUESS);
             }
             sendRequest(request);
+            response = getResponse();
+            System.out.println(response.getMessage());
 
         } catch (IOException e) {
             e.printStackTrace();

@@ -4,10 +4,11 @@
     <list default="true" id="673235e0-392f-4512-8bdc-a1d8c65b2ee6" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/client/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Action.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Action.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/Croupier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/Croupier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/Table.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Table.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/ServerRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/ServerRunner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/Table.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/Table.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,7 +92,7 @@
       <module name="guessing-game" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="server.*" />
+          <option name="PATTERN" value="game.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -130,7 +131,8 @@
       <workItem from="1584129915070" duration="13397000" />
       <workItem from="1584181754842" duration="203000" />
       <workItem from="1584206520448" duration="21542000" />
-      <workItem from="1584272213438" duration="15630000" />
+      <workItem from="1584272213438" duration="15768000" />
+      <workItem from="1584291611603" duration="1697000" />
     </task>
     <servers />
   </component>
@@ -152,7 +154,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
@@ -172,25 +176,25 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="697" y="291" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1584277283599" />
-    <state width="1872" height="413" key="GridCell.Tab.0.bottom" timestamp="1584288449014">
+    <state width="1872" height="413" key="GridCell.Tab.0.bottom" timestamp="1584293496755">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1872" height="413" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1584288449014" />
+    <state width="1872" height="413" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1584293496755" />
     <state width="1874" height="265" key="GridCell.Tab.0.bottom/0.0.1920.2160@0.0.1920.2160" timestamp="1584055810638" />
-    <state width="1872" height="413" key="GridCell.Tab.0.center" timestamp="1584288449013">
+    <state width="1872" height="413" key="GridCell.Tab.0.center" timestamp="1584293496754">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1872" height="413" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1584288449013" />
+    <state width="1872" height="413" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1584293496754" />
     <state width="1874" height="265" key="GridCell.Tab.0.center/0.0.1920.2160@0.0.1920.2160" timestamp="1584055810636" />
-    <state width="1872" height="413" key="GridCell.Tab.0.left" timestamp="1584288449013">
+    <state width="1872" height="413" key="GridCell.Tab.0.left" timestamp="1584293496752">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1872" height="413" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1584288449013" />
+    <state width="1872" height="413" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1584293496752" />
     <state width="1874" height="265" key="GridCell.Tab.0.left/0.0.1920.2160@0.0.1920.2160" timestamp="1584055810636" />
-    <state width="1872" height="413" key="GridCell.Tab.0.right" timestamp="1584288449013">
+    <state width="1872" height="413" key="GridCell.Tab.0.right" timestamp="1584293496755">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1872" height="413" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1584288449013" />
+    <state width="1872" height="413" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1584293496755" />
     <state width="1874" height="265" key="GridCell.Tab.0.right/0.0.1920.2160@0.0.1920.2160" timestamp="1584055810637" />
     <state width="1872" height="413" key="GridCell.Tab.1.bottom" timestamp="1584275841146">
       <screen x="0" y="0" width="1920" height="1080" />

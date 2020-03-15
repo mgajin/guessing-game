@@ -1,4 +1,7 @@
-package server;
+package game;
+
+import game.Croupier;
+import game.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +37,7 @@ public class Table {
         }
     }
 
-    public boolean acquireSeat(Player player) {
+    public synchronized boolean acquireSeat(Player player) {
 
         if (semaphore.tryAcquire()) {
             players.add(player);

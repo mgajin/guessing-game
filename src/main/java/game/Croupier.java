@@ -1,4 +1,4 @@
-package server;
+package game;
 
 import model.Action;
 import model.Stick;
@@ -17,13 +17,15 @@ public class Croupier implements Runnable{
     @Override
     public void run() {
         System.out.println("Game has begun!");
-        shuffleCards();
+        shuffleSticks();
         giveInstructions();
     }
 
     public void giveInstructions() {
 
         List<Player> players = Table.getPlayers();
+
+        System.out.println(players.toArray().length);
 
         players.get(0).setAction(Action.DRAW);
 
@@ -32,7 +34,7 @@ public class Croupier implements Runnable{
         }
     }
 
-    public void shuffleCards() {
+    public void shuffleSticks() {
         int stick = new Random().nextInt(6);
 
         for (int i = 0; i < sticks.length; i++) {

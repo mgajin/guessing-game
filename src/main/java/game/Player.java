@@ -1,5 +1,6 @@
-package server;
+package game;
 
+import game.Croupier;
 import model.Action;
 import model.Stick;
 

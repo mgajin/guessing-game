@@ -1,6 +1,8 @@
 package server;
 
 import com.google.gson.Gson;
+import game.Player;
+import game.Table;
 import model.*;
 
 import java.io.*;
@@ -111,9 +113,3 @@ public class Server implements Runnable {
         }
     }
 }
-
-//                    while (true) {
-//                        if (Table.isFull()) break;
-//                    }
-//                    response.setMessage("Game is about to start");
-//                    sendResponse(response);
