@@ -38,20 +38,33 @@ public class Client implements Runnable {
         sendRequest(request);
 
         try {
-            AtomicReference<Response> response = new AtomicReference<Response>(getResponse());
-            if (response.get().getResult() == Result.FAILURE) {
+            Response response = getResponse();
+            if (response.getResult() == Result.FAILURE) {
                 System.err.println("Something went wrong");
             }
 
 //            Enter que for the table
             request.setAction(Action.REQUEST_SEAT);
             sendRequest(request);
-            response.set(getResponse());
-            if (response.get().getResult() == Result.SUCCESS) {
-                System.out.println("Server: " + response.get().getMessage());
+            response = getResponse();
+            if (response.getResult() == Result.SUCCESS) {
+                System.out.println("Server: " + response.getMessage());
             }
 
 //            Wait for game to start
+            response = getResponse();
+            if (response.getResult() == Result.SUCCESS) {
+                System.out.println(response.getMessage());
+            }
+
+//            Wait for instructions from Server
+            response = getResponse();
+            if (response.getMessage().equals("DRAW")) {
+                request.setAction(Action.DRAW);
+            } else {
+                request.setAction(Action.GUESS);
+            }
+            sendRequest(request);
 
         } catch (IOException e) {
             e.printStackTrace();

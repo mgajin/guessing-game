@@ -4,9 +4,7 @@
     <list default="true" id="673235e0-392f-4512-8bdc-a1d8c65b2ee6" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/client/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/client/ClientRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/ClientRunner.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/model/Action.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Action.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Response.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Response.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/server/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Server.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/server/Table.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Table.java" afterDir="false" />
@@ -101,10 +99,18 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="tester" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="tester" />
+      <module name="guessing-game" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Application.ClientRunner" />
         <item itemvalue="Application.ServerRunner" />
+        <item itemvalue="Application.tester" />
       </list>
     </recent_temporary>
   </component>
@@ -124,7 +130,7 @@
       <workItem from="1584129915070" duration="13397000" />
       <workItem from="1584181754842" duration="203000" />
       <workItem from="1584206520448" duration="21542000" />
-      <workItem from="1584272213438" duration="7147000" />
+      <workItem from="1584272213438" duration="15630000" />
     </task>
     <servers />
   </component>
@@ -158,29 +164,33 @@
     </state>
     <state x="772" y="518" width="376" height="557" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1080@0.0.1920.1080" timestamp="1584230673051" />
     <state x="772" y="1342" key="#com.intellij.ide.util.MemberChooser/0.0.1920.2160@0.0.1920.2160" timestamp="1584052727531" />
+    <state x="0" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1584287076178">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="0" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1584287076178" />
     <state x="697" y="291" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1584277283599">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="697" y="291" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1584277283599" />
-    <state width="1872" height="368" key="GridCell.Tab.0.bottom" timestamp="1584279570387">
+    <state width="1872" height="413" key="GridCell.Tab.0.bottom" timestamp="1584288449014">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1872" height="368" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1584279570387" />
+    <state width="1872" height="413" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1584288449014" />
     <state width="1874" height="265" key="GridCell.Tab.0.bottom/0.0.1920.2160@0.0.1920.2160" timestamp="1584055810638" />
-    <state width="1872" height="368" key="GridCell.Tab.0.center" timestamp="1584279570386">
+    <state width="1872" height="413" key="GridCell.Tab.0.center" timestamp="1584288449013">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1872" height="368" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1584279570386" />
+    <state width="1872" height="413" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1584288449013" />
     <state width="1874" height="265" key="GridCell.Tab.0.center/0.0.1920.2160@0.0.1920.2160" timestamp="1584055810636" />
-    <state width="1872" height="368" key="GridCell.Tab.0.left" timestamp="1584279570385">
+    <state width="1872" height="413" key="GridCell.Tab.0.left" timestamp="1584288449013">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1872" height="368" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1584279570385" />
+    <state width="1872" height="413" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1584288449013" />
     <state width="1874" height="265" key="GridCell.Tab.0.left/0.0.1920.2160@0.0.1920.2160" timestamp="1584055810636" />
-    <state width="1872" height="368" key="GridCell.Tab.0.right" timestamp="1584279570386">
+    <state width="1872" height="413" key="GridCell.Tab.0.right" timestamp="1584288449013">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1872" height="368" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1584279570386" />
+    <state width="1872" height="413" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1584288449013" />
     <state width="1874" height="265" key="GridCell.Tab.0.right/0.0.1920.2160@0.0.1920.2160" timestamp="1584055810637" />
     <state width="1872" height="413" key="GridCell.Tab.1.bottom" timestamp="1584275841146">
       <screen x="0" y="0" width="1920" height="1080" />

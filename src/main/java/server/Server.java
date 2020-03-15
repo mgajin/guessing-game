@@ -1,14 +1,10 @@
 package server;
 
 import com.google.gson.Gson;
-import model.Action;
-import model.Request;
-import model.Response;
-import model.Result;
+import model.*;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class Server implements Runnable {
 
@@ -37,18 +33,31 @@ public class Server implements Runnable {
     public void run() {
         try {
 //            First request is JOIN
-            AtomicReference<Request> request = new AtomicReference<Request>(getRequest());
-            player = new Player(request.get().getId());
+            Request request = getRequest();
+            player = new Player(request.getId());
             response.setResult(Result.SUCCESS);
             response.setMessage("Welcome");
             sendResponse(response);
 
 //            Constantly get requests from client
             while (true) {
-                request.set(getRequest());
-                if (request.get().getAction() == Action.REQUEST_SEAT) {
+                request = getRequest();
+                if (request.getAction() == Action.REQUEST_SEAT) {
                     enterQue();
-                } else if (request.get().getAction() == Action.LEAVE) {
+//                    Wait for game to start
+                    response.setMessage("Waiting for other players to take their seats...");
+                    sendResponse(response);
+//                    Wait for instructions from Croupier
+                    table.await();
+//                    Send instructions to client
+                    response.setMessage(player.getAction().toString());
+                    sendResponse(response);
+                } else if (request.getAction() == Action.DRAW) {
+                    Stick stick = player.draw();
+                    System.out.println("Player " + player.getId() + " draw " + stick.toString());
+                } else if (request.getAction() == Action.GUESS) {
+                    System.out.println("Player " + player.getId() + " " + player.getAction());
+                } else if (request.getAction() == Action.LEAVE) {
                     leaveTable();
                     break;
                 }
@@ -102,3 +111,9 @@ public class Server implements Runnable {
         }
     }
 }
+
+//                    while (true) {
+//                        if (Table.isFull()) break;
+//                    }
+//                    response.setMessage("Game is about to start");
+//                    sendResponse(response);

@@ -4,6 +4,6 @@ public enum Action {
     JOIN,
     REQUEST_SEAT,
     DRAW,
-    BET,
+    GUESS,
     LEAVE
 }
