@@ -8,8 +8,8 @@ import model.Result;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.Random;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class Client implements Runnable {
 
@@ -27,13 +27,36 @@ public class Client implements Runnable {
         gson = new Gson();
     }
 
-    public void close() {
+    @Override
+    public void run() {
+        UUID id = UUID.randomUUID();
+        Request request = new Request();
+        request.setId(id);
+
+//        First request must be JOIN
+        request.setAction(Action.JOIN);
+        sendRequest(request);
+
         try {
-            in.close();
-            out.close();
-            socket.close();
+            AtomicReference<Response> response = new AtomicReference<Response>(getResponse());
+            if (response.get().getResult() == Result.FAILURE) {
+                System.err.println("Something went wrong");
+            }
+
+//            Enter que for the table
+            request.setAction(Action.REQUEST_SEAT);
+            sendRequest(request);
+            response.set(getResponse());
+            if (response.get().getResult() == Result.SUCCESS) {
+                System.out.println("Server: " + response.get().getMessage());
+            }
+
+//            Wait for game to start
+
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            close();
         }
     }
 
@@ -42,34 +65,17 @@ public class Client implements Runnable {
         out.println(requestString);
     }
 
-    @Override
-    public void run() {
-        UUID id = UUID.randomUUID();
-        Request request = new Request();
-        request.setId(id);
+    public Response getResponse() throws IOException {
+        return gson.fromJson(in.readLine(), Response.class);
+    }
 
-        while (true) {
-            try {
-                request.setAction(Action.REQUEST_CHAIR);
-                sendRequest(request);
-
-                Response response = gson.fromJson(in.readLine(), Response.class);
-
-                if (response.getResult() == Result.SUCCESS) {
-                    System.out.println("Player: " + id.toString() + " took a seat");
-                    Thread.sleep(new Random().nextInt(1000));
-                    request.setAction(Action.LEAVE);
-                    sendRequest(request);
-                    break;
-                }
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+    public void close() {
+        try {
+            in.close();
+            out.close();
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        close();
     }
 }

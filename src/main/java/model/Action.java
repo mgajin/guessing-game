@@ -1,7 +1,8 @@
 package model;
 
 public enum Action {
-    REQUEST_CHAIR,
+    JOIN,
+    REQUEST_SEAT,
     DRAW,
     BET,
     LEAVE

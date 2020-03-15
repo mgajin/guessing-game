@@ -12,7 +12,7 @@ public class ClientRunner {
 
     public static void main(String[] args) {
 
-        ScheduledExecutorService executor = Executors.newScheduledThreadPool(5);
+        ScheduledExecutorService executor = Executors.newScheduledThreadPool(10);
 
         try {
 
