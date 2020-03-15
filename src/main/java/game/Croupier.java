@@ -6,26 +6,24 @@ import model.Stick;
 import java.util.List;
 import java.util.Random;
 
-public class Croupier implements Runnable{
+public class Croupier {
 
     private static Stick[] sticks;
+    private static Stick stick;
 
     public Croupier() {
         sticks = new Stick[6];
     }
 
-    @Override
-    public void run() {
+    public static void startGame() {
         System.out.println("Game has begun!");
         shuffleSticks();
         giveInstructions();
     }
 
-    public void giveInstructions() {
+    public static void giveInstructions() {
 
         List<Player> players = Table.getPlayers();
-
-        System.out.println(players.toArray().length);
 
         players.get(0).setAction(Action.DRAW);
 
@@ -34,12 +32,16 @@ public class Croupier implements Runnable{
         }
     }
 
-    public void shuffleSticks() {
+    public static void shuffleSticks() {
         int stick = new Random().nextInt(6);
 
         for (int i = 0; i < sticks.length; i++) {
             sticks[i] = (i == stick) ? Stick.SHORT : Stick.LONG;
         }
+    }
+
+    public static void setStick(Stick stick) {
+        Croupier.stick = stick;
     }
 
     public static Stick[] getSticks() {

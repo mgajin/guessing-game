@@ -15,16 +15,24 @@ public class Table {
     private Semaphore semaphore;
     private CyclicBarrier barrier;
 
-    private Croupier croupier;
     private static List<Player> players;
     private static AtomicBoolean availableSeats;
 
     public Table(int n) {
-        croupier = new Croupier();
         semaphore = new Semaphore(n);
-        barrier = new CyclicBarrier(n, croupier);
+        barrier = new CyclicBarrier(n, barrierAction());
         players = new ArrayList<Player>();
         availableSeats = new AtomicBoolean(true);
+    }
+
+//    Start the game
+    public Runnable barrierAction() {
+        return new Runnable() {
+            @Override
+            public void run() {
+                Croupier.startGame();
+            }
+        };
     }
 
     public void await() {

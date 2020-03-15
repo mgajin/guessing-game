@@ -1,5 +1,6 @@
 package server;
 
+import game.Croupier;
 import game.Table;
 
 import java.io.IOException;
@@ -17,6 +18,7 @@ public class ServerRunner {
         ServerSocket serverSocket = new ServerSocket(PORT);
         ExecutorService executor = Executors.newCachedThreadPool();
         Table table = new Table(6);
+        Croupier croupier = new Croupier();
 
         while (true) {
             Socket socket = serverSocket.accept();

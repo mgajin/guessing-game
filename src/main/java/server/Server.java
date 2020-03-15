@@ -1,6 +1,7 @@
 package server;
 
 import com.google.gson.Gson;
+import game.Croupier;
 import game.Player;
 import game.Table;
 import model.*;
@@ -56,9 +57,11 @@ public class Server implements Runnable {
                     sendResponse(response);
                 } else if (request.getAction() == Action.DRAW) {
                     Stick stick = player.draw();
+                    Croupier.setStick(stick);
                     System.out.println("Player " + player.getId() + " draw " + stick.toString());
                 } else if (request.getAction() == Action.GUESS) {
-                    System.out.println("Player " + player.getId() + " " + player.getAction());
+                    player.guess();
+                    System.out.println("Player " + player.getId() + " guessed: " + player.getGuess());
                 } else if (request.getAction() == Action.LEAVE) {
                     leaveTable();
                     break;

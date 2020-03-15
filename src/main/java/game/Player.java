@@ -12,6 +12,7 @@ public class Player {
     private UUID id;
     private int points;
     private Action action;
+    private Stick guess;
 
     public Player(UUID id) {
         this.id = id;
@@ -25,6 +26,10 @@ public class Player {
         return Croupier.getSticks()[i];
     }
 
+    public void guess() {
+        guess = (new Random().nextBoolean()) ? Stick.SHORT : Stick.LONG;
+    }
+
     public int getPoints() {
         return points;
     }
@@ -36,6 +41,8 @@ public class Player {
     public Action getAction() {
         return action;
     }
+
+    public Stick getGuess() { return guess; }
 
     public UUID getId() { return id; }
 }
