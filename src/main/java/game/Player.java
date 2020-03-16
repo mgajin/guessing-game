@@ -38,6 +38,10 @@ public class Player {
         this.inGame = inGame;
     }
 
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
     public int getPoints() {
         return points;
     }

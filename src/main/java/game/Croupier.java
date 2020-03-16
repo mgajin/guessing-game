@@ -3,6 +3,7 @@ package game;
 import model.Action;
 import model.Stick;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.BrokenBarrierException;
@@ -58,17 +59,13 @@ public class Croupier {
 
                 boolean nextRound = stick != Stick.SHORT;
 
-                System.out.println("Round " + Table.getRound() + " results:");
-
                 for (Player player : players) {
                     if (player.getAction() == Action.GUESS) {
                         if (player.getGuess() == stick) {
                             player.setResult(true);
                             player.givePoint();
-                            System.out.println("Player: [" + player.getId() +"] Correct");
                         } else {
                             player.setResult(false);
-                            System.out.println("Player: [" + player.getId() +"] Wrong");
                         }
                     } else {
                         player.setResult(nextRound);
@@ -78,6 +75,7 @@ public class Croupier {
                 if (nextRound) {
                     Table.next();
                 } else {
+                    printWinner();
                     Table.reset();
                 }
 
@@ -127,6 +125,18 @@ public class Croupier {
         if (stick == null) System.out.println("stick error");
 
         return stick;
+    }
+
+    public void printWinner() {
+
+        List<Player> players = Table.getPlayers();
+        Player winner = players.get(0);
+
+        for (Player player : players) {
+            winner = (player.getPoints() > winner.getPoints()) ? player : winner;
+        }
+
+        System.out.println("Winner is player [" + winner.getId() + "] with " + winner.getPoints() + " points");
     }
 
     public void await() {

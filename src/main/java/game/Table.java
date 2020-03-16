@@ -61,6 +61,9 @@ public class Table {
 
     public static void reset() {
         round = 0;
+        for (Player player : players) {
+            player.setPoints(0);
+        }
     }
 
     public static List<Player> getPlayers() {
