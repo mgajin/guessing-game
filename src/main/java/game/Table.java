@@ -13,6 +13,7 @@ public class Table {
 
     public static final int TOTAL_PLAYERS = 6;
     private static List<Player> players;
+    private static int round;
 
     private Semaphore semaphore;
     private CyclicBarrier barrier;
@@ -22,6 +23,7 @@ public class Table {
         players = new ArrayList<Player>();
         semaphore = new Semaphore(n);
         barrier = new CyclicBarrier(n, Croupier.startGame());
+        round = 0;
     }
 
     public void await() {
@@ -47,6 +49,18 @@ public class Table {
     public void releaseSeat(Player player) {
         players.remove(player);
         semaphore.release();
+    }
+
+    public static int getRound() {
+        return round;
+    }
+
+    public static void next() {
+        round++;
+    }
+
+    public static void reset() {
+        round = 0;
     }
 
     public static List<Player> getPlayers() {

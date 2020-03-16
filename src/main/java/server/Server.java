@@ -60,8 +60,7 @@ public class Server implements Runnable {
                 request = getRequest();
 //                Game has begun
                 if (request.getAction() == Action.DRAW) {
-                    Stick stick = player.draw();
-                    croupier.setStick(stick);
+                    Stick stick = croupier.giveStick();
                     response.setMessage("You got " + stick);
                     sendResponse(response);
                     System.out.println("Player " + player.getId() + " draw " + stick.toString());
@@ -98,7 +97,8 @@ public class Server implements Runnable {
             String message = (player.getAction() == Action.GUESS) ? "Correct!" : "You are safe!";
             response.setMessage(message);
         } else {
-            response.setResult(Result.FAILURE);
+            // TODO: 16.3.20. set result to FAILURE
+            response.setResult(Result.SUCCESS);
             String message =  (player.getAction() == Action.GUESS) ? "Wrong!" : "You lost!";
             response.setMessage(message);
         }
@@ -122,7 +122,7 @@ public class Server implements Runnable {
         response.setResult(Result.SUCCESS);
         response.setMessage("You left the table");
         sendResponse(response);
-        table.releaseSeat(player);
+//        table.releaseSeat(player);
     }
 
 //    Get request from client

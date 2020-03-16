@@ -20,13 +20,6 @@ public class Player {
         points = 0;
     }
 
-    public Stick draw() {
-
-        int i = new Random().nextInt(Table.TOTAL_PLAYERS);
-
-        return Croupier.getSticks()[i];
-    }
-
     public void guess() {
         guess = (new Random().nextBoolean()) ? Stick.SHORT : Stick.LONG;
     }

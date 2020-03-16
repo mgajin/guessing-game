@@ -30,9 +30,19 @@ public class Croupier {
             @Override
             public void run() {
                 running.set(true);
-                System.out.println("Game has begun!");
-                shuffleSticks();
+                if (Table.getRound() == 0) {
+                    System.out.println("Game has begun!");
+                    shuffleSticks();
+                } else {
+                    System.out.println("Next round! " + Table.getRound());
+                }
+
                 giveInstructions();
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         };
     }
@@ -41,25 +51,33 @@ public class Croupier {
         return new Runnable() {
             @Override
             public void run() {
+
                 List<Player> players = Table.getPlayers();
 
                 boolean result = stick != Stick.SHORT;
 
-                players.get(0).setResult(result);
+                System.out.println("Round " + Table.getRound() + " results:");
 
-                for (int i = 1; i < Table.TOTAL_PLAYERS; i++) {
-                    Player player = players.get(i);
-                    if (player.getGuess() == stick) {
-                        player.setResult(true);
-                        player.givePoint();
-                        System.out.println("Correct");
+                for (Player player : players) {
+                    if (player.getAction() == Action.GUESS) {
+                        if (player.getGuess() == stick) {
+                            player.setResult(true);
+                            player.givePoint();
+                            System.out.println("Player: [" + player.getId() +"] Correct");
+                        } else {
+                            player.setResult(false);
+                            System.out.println("Player: [" + player.getId() +"] Wrong");
+                        }
                     } else {
-                        player.setResult(false);
-                        System.out.println("Wrong");
+                        player.setResult(result);
                     }
                 }
 
-                running.set(result);
+                Table.next();
+
+                if (Table.getRound() == 6) {
+                    running.set(false);
+                }
             }
         };
     }
@@ -76,11 +94,33 @@ public class Croupier {
 
         List<Player> players = Table.getPlayers();
 
-        players.get(0).setAction(Action.DRAW);
-
-        for (int i = 1; i < players.toArray().length; i++) {
-            players.get(i).setAction(Action.GUESS);
+        int i = 0;
+        for (Player player : players) {
+            Action action = (i == Table.getRound()) ? Action.DRAW : Action.GUESS;
+            player.setAction(action);
+            i++;
         }
+    }
+
+    public Stick giveStick() {
+
+        int[] arr = new int[Table.TOTAL_PLAYERS - Table.getRound()];
+
+        for (int i = 0, j = 0; i < Table.TOTAL_PLAYERS; i++) {
+            if (sticks[i] != null) {
+                arr[j++] = i;
+            }
+        }
+        int i = new Random().nextInt(arr.length);
+
+        Stick stick = sticks[arr[i]];
+        sticks[arr[i]] = null;
+
+        setStick(stick);
+
+        if (stick == null) System.out.println("stick error");
+
+        return stick;
     }
 
     public void await() {
