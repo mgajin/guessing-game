@@ -60,11 +60,11 @@ public class Server implements Runnable {
                 } else if (request.getAction() == Action.DRAW) {
                     Stick stick = player.draw();
                     croupier.setStick(stick);
+                    response.setMessage("You got " + stick);
+                    sendResponse(response);
                     System.out.println("Player " + player.getId() + " draw " + stick.toString());
 //                    Wait for other players to complete their action
                     croupier.await();
-                    System.out.println(player.getResult());
-                    System.out.println("Barrier has broken");
                     if (player.getResult()) {
                         response.setResult(Result.SUCCESS);
                         response.setMessage("You are safe!");
@@ -75,10 +75,11 @@ public class Server implements Runnable {
                     }
                 } else if (request.getAction() == Action.GUESS) {
                     player.guess();
+                    response.setMessage("Your guess: " + player.getGuess());
+                    sendResponse(response);
                     System.out.println("Player " + player.getId() + " guessed: " + player.getGuess());
 //                    Wait for other players to complete their action
                     croupier.await();
-                    System.out.println("Barrier has broken");
                     if (player.getResult()) {
                         response.setResult(Result.SUCCESS);
                         response.setMessage("Correct!");
@@ -111,10 +112,10 @@ public class Server implements Runnable {
 
 //    Leave table
     public void leaveTable() {
-        table.releaseSeat(player);
         response.setResult(Result.FAILURE);
-        response.setMessage("You left the table");
+        response.setMessage("You lost!");
         sendResponse(response);
+        table.releaseSeat(player);
     }
 
 //    Get request from client

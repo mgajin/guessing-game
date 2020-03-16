@@ -66,9 +66,14 @@ public class Client implements Runnable {
                 request.setAction(Action.GUESS);
             }
             sendRequest(request);
-//            Wait for results
+//            Wait for server response
             response = getResponse();
-            System.out.println(response.getMessage() + " idk...");
+            System.out.println("Server: " + response.getMessage() + " [" + id + "]");
+//            Wait for results from croupier
+            response = getResponse();
+            System.out.println("Croupier: " + response.getMessage() + " [" + id + "]");
+
+            if (request.getAction() == Action.DRAW && response.getResult() == Result.FAILURE) close();
 
         } catch (IOException e) {
             e.printStackTrace();
