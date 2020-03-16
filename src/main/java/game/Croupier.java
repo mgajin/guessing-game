@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Croupier {
@@ -22,14 +24,14 @@ public class Croupier {
         sticks = new Stick[Table.TOTAL_PLAYERS];
         barrier = new CyclicBarrier(Table.TOTAL_PLAYERS, checkResults());
 
-        running = new AtomicBoolean(false);
+        running = new AtomicBoolean(true);
     }
 
     public static Runnable startGame() {
         return new Runnable() {
             @Override
             public void run() {
-                running.set(true);
+//                running.set(true);
                 if (Table.getRound() == 0) {
                     System.out.println("Game has begun!");
                     shuffleSticks();
@@ -54,7 +56,7 @@ public class Croupier {
 
                 List<Player> players = Table.getPlayers();
 
-                boolean result = stick != Stick.SHORT;
+                boolean nextRound = stick != Stick.SHORT;
 
                 System.out.println("Round " + Table.getRound() + " results:");
 
@@ -69,11 +71,15 @@ public class Croupier {
                             System.out.println("Player: [" + player.getId() +"] Wrong");
                         }
                     } else {
-                        player.setResult(result);
+                        player.setResult(nextRound);
                     }
                 }
 
-                Table.next();
+                if (nextRound) {
+                    Table.next();
+                } else {
+                    Table.reset();
+                }
 
                 if (Table.getRound() == 6) {
                     running.set(false);
@@ -143,5 +149,9 @@ public class Croupier {
 
     public static boolean isRunning() {
         return running.get();
+    }
+
+    public static void setRunning(boolean isRunning) {
+        running.set(isRunning);
     }
 }

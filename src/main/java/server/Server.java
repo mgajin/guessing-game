@@ -49,10 +49,20 @@ public class Server implements Runnable {
                 enterQue();
             }
 
+//            System.out.println("Player: " + player.getId() + " joined");
+
+            player.setInGame(true);
 //            Constantly get requests from client
-            while (true) {
+            while (player.isInGame()) {
 //                Wait for instructions from Croupier
                 table.await();
+//                Check if there is enough players
+                if (!Croupier.isRunning()) {
+                    response.setResult(Result.FAILURE);
+                    response.setMessage("Not enough players");
+                    sendResponse(response);
+                    break;
+                }
 //                Send instructions to client
                 response.setMessage(player.getAction().toString());
                 sendResponse(response);
@@ -75,12 +85,15 @@ public class Server implements Runnable {
 //                    Wait for other players to complete their action
                     croupier.await();
                     getResults();
-                } else if (request.getAction() == Action.LEAVE) {
-                    leaveTable();
-                    break;
                 }
+//                if (!Croupier.isRunning()) break;
+            }
 
-                if (!Croupier.isRunning()) break;
+//            Wait for client to confirm that he is leaving
+            request = getRequest();
+            if (request.getAction() == Action.LEAVE) {
+                leaveTable();
+                System.out.println("Player [" + player.getId() + "] left");
             }
 
         } catch (IOException e) {
@@ -92,15 +105,24 @@ public class Server implements Runnable {
 
 //    Get results from croupier and sand them to client
     public void getResults() {
-        if (player.getResult()) {
-            response.setResult(Result.SUCCESS);
-            String message = (player.getAction() == Action.GUESS) ? "Correct!" : "You are safe!";
-            response.setMessage(message);
+
+        if (player.getAction() == Action.GUESS) {
+            if (player.getResult()) {
+                response.setResult(Result.SUCCESS);
+                response.setMessage("Correct!");
+            } else {
+                response.setResult(Result.FAILURE);
+                response.setMessage("Wrong!");
+            }
         } else {
-            // TODO: 16.3.20. set result to FAILURE
-            response.setResult(Result.SUCCESS);
-            String message =  (player.getAction() == Action.GUESS) ? "Wrong!" : "You lost!";
-            response.setMessage(message);
+            if (player.getResult()) {
+                response.setResult(Result.SUCCESS);
+                response.setMessage("You are safe!");
+            } else {
+                player.setInGame(false);
+                response.setResult(Result.FAILURE);
+                response.setMessage("You lost!");
+            }
         }
         sendResponse(response);
     }
@@ -122,7 +144,7 @@ public class Server implements Runnable {
         response.setResult(Result.SUCCESS);
         response.setMessage("You left the table");
         sendResponse(response);
-//        table.releaseSeat(player);
+        table.releaseSeat(player);
     }
 
 //    Get request from client

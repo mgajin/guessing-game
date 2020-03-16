@@ -5,9 +5,7 @@ import game.Player;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.BrokenBarrierException;
-import java.util.concurrent.CyclicBarrier;
-import java.util.concurrent.Semaphore;
+import java.util.concurrent.*;
 
 public class Table {
 
@@ -19,20 +17,22 @@ public class Table {
     private CyclicBarrier barrier;
 
 
-    public Table(int n) {
+    public Table() {
         players = new ArrayList<Player>();
-        semaphore = new Semaphore(n);
-        barrier = new CyclicBarrier(n, Croupier.startGame());
+        semaphore = new Semaphore(TOTAL_PLAYERS);
+        barrier = new CyclicBarrier(TOTAL_PLAYERS, Croupier.startGame());
         round = 0;
     }
 
     public void await() {
         try {
-            barrier.await();
+            barrier.await(3, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (BrokenBarrierException e) {
-            e.printStackTrace();
+            semaphore.release();
+        } catch (TimeoutException e) {
+            Croupier.setRunning(false);
         }
     }
 

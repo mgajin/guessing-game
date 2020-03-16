@@ -54,6 +54,14 @@ public class Client implements Runnable {
             while (true) {
 //                Wait for instructions from Server
                 response = getResponse();
+
+                if (response.getMessage().equals("Not enough players")) {
+//                    System.out.println(response.getMessage());
+                    request.setAction(Action.LEAVE);
+                    sendRequest(request);
+                    break;
+                }
+
                 if (response.getMessage().equals("DRAW")) {
                     request.setAction(Action.DRAW);
                 } else {

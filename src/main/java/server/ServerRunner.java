@@ -17,7 +17,7 @@ public class ServerRunner {
 
         ServerSocket serverSocket = new ServerSocket(PORT);
         ExecutorService executor = Executors.newCachedThreadPool();
-        Table table = new Table(6);
+        Table table = new Table();
         Croupier croupier = new Croupier();
 
         while (true) {

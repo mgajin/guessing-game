@@ -14,10 +14,12 @@ public class Player {
     private Action action;
     private Stick guess;
     private boolean result;
+    private boolean inGame;
 
     public Player(UUID id) {
         this.id = id;
         points = 0;
+        inGame = false;
     }
 
     public void guess() {
@@ -26,6 +28,14 @@ public class Player {
 
     public void givePoint() {
         points++;
+    }
+
+    public boolean isInGame() {
+        return inGame;
+    }
+
+    public void setInGame(boolean inGame) {
+        this.inGame = inGame;
     }
 
     public int getPoints() {

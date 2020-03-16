@@ -16,7 +16,7 @@ public class ClientRunner {
 
         try {
 
-            for (int i = 0; i < 6; i++) {
+            for (int i = 0; i < 7; i++) {
                 executor.schedule(new Client(HOST, PORT), 500, TimeUnit.MILLISECONDS);
             }
 
