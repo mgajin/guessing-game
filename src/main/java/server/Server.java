@@ -43,21 +43,23 @@ public class Server implements Runnable {
             response.setResult(Result.SUCCESS);
             response.setMessage("Welcome");
             sendResponse(response);
+//            Wait for player's request for seat
+            request = getRequest();
+            if (request.getAction() == Action.REQUEST_SEAT) {
+                enterQue();
+            }
 
 //            Constantly get requests from client
             while (true) {
+//                Wait for instructions from Croupier
+                table.await();
+//                Send instructions to client
+                response.setMessage(player.getAction().toString());
+                sendResponse(response);
+
                 request = getRequest();
-                if (request.getAction() == Action.REQUEST_SEAT) {
-                    enterQue();
-//                    Wait for game to start
-                    response.setMessage("Waiting for other players to take their seats...");
-                    sendResponse(response);
-//                    Wait for instructions from Croupier
-                    table.await();
-//                    Send instructions to client
-                    response.setMessage(player.getAction().toString());
-                    sendResponse(response);
-                } else if (request.getAction() == Action.DRAW) {
+//                Game has begun
+                if (request.getAction() == Action.DRAW) {
                     Stick stick = player.draw();
                     croupier.setStick(stick);
                     response.setMessage("You got " + stick);
@@ -65,14 +67,7 @@ public class Server implements Runnable {
                     System.out.println("Player " + player.getId() + " draw " + stick.toString());
 //                    Wait for other players to complete their action
                     croupier.await();
-                    if (player.getResult()) {
-                        response.setResult(Result.SUCCESS);
-                        response.setMessage("You are safe!");
-                        sendResponse(response);
-                    } else {
-                        leaveTable();
-                        break;
-                    }
+                    getResults();
                 } else if (request.getAction() == Action.GUESS) {
                     player.guess();
                     response.setMessage("Your guess: " + player.getGuess());
@@ -80,15 +75,13 @@ public class Server implements Runnable {
                     System.out.println("Player " + player.getId() + " guessed: " + player.getGuess());
 //                    Wait for other players to complete their action
                     croupier.await();
-                    if (player.getResult()) {
-                        response.setResult(Result.SUCCESS);
-                        response.setMessage("Correct!");
-                    } else {
-                        response.setResult(Result.FAILURE);
-                        response.setMessage("Wrong!");
-                    }
-                    sendResponse(response);
+                    getResults();
+                } else if (request.getAction() == Action.LEAVE) {
+                    leaveTable();
+                    break;
                 }
+
+                if (!Croupier.isRunning()) break;
             }
 
         } catch (IOException e) {
@@ -98,22 +91,36 @@ public class Server implements Runnable {
         }
     }
 
+//    Get results from croupier and sand them to client
+    public void getResults() {
+        if (player.getResult()) {
+            response.setResult(Result.SUCCESS);
+            String message = (player.getAction() == Action.GUESS) ? "Correct!" : "You are safe!";
+            response.setMessage(message);
+        } else {
+            response.setResult(Result.FAILURE);
+            String message =  (player.getAction() == Action.GUESS) ? "Wrong!" : "You lost!";
+            response.setMessage(message);
+        }
+        sendResponse(response);
+    }
+
 //    Wait for available seat at the table
     public void enterQue() {
         while (true) {
             if (table.acquireSeat(player)) {
-                response.setResult(Result.SUCCESS);
-                response.setMessage("Take your seat");
-                sendResponse(response);
                 break;
             }
         }
+        response.setResult(Result.SUCCESS);
+        response.setMessage("Take your seat");
+        sendResponse(response);
     }
 
 //    Leave table
     public void leaveTable() {
-        response.setResult(Result.FAILURE);
-        response.setMessage("You lost!");
+        response.setResult(Result.SUCCESS);
+        response.setMessage("You left the table");
         sendResponse(response);
         table.releaseSeat(player);
     }

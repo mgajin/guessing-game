@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Croupier {
 
@@ -15,15 +16,20 @@ public class Croupier {
     private static Stick[] sticks;
     private Stick stick;
 
+    private static AtomicBoolean running;
+
     public Croupier() {
         sticks = new Stick[Table.TOTAL_PLAYERS];
         barrier = new CyclicBarrier(Table.TOTAL_PLAYERS, checkResults());
+
+        running = new AtomicBoolean(false);
     }
 
     public static Runnable startGame() {
         return new Runnable() {
             @Override
             public void run() {
+                running.set(true);
                 System.out.println("Game has begun!");
                 shuffleSticks();
                 giveInstructions();
@@ -37,11 +43,9 @@ public class Croupier {
             public void run() {
                 List<Player> players = Table.getPlayers();
 
-                if (stick == Stick.SHORT) {
-                    players.get(0).setResult(false);
-                } else {
-                    players.get(0).setResult(true);
-                }
+                boolean result = stick != Stick.SHORT;
+
+                players.get(0).setResult(result);
 
                 for (int i = 1; i < Table.TOTAL_PLAYERS; i++) {
                     Player player = players.get(i);
@@ -54,6 +58,8 @@ public class Croupier {
                         System.out.println("Wrong");
                     }
                 }
+
+                running.set(result);
             }
         };
     }
@@ -93,5 +99,9 @@ public class Croupier {
 
     public static Stick[] getSticks() {
         return sticks;
+    }
+
+    public static boolean isRunning() {
+        return running.get();
     }
 }

@@ -43,7 +43,6 @@ public class Client implements Runnable {
             if (response.getResult() == Result.FAILURE) {
                 System.err.println("Something went wrong");
             }
-
 //            Enter que for the table
             request.setAction(Action.REQUEST_SEAT);
             sendRequest(request);
@@ -52,32 +51,32 @@ public class Client implements Runnable {
                 System.out.println("Server: " + response.getMessage());
             }
 
-//            Wait for game to start
-            response = getResponse();
-            if (response.getResult() == Result.SUCCESS) {
-                System.out.println(response.getMessage());
-            }
-
-//            Wait for instructions from Server
-            response = getResponse();
-            if (response.getMessage().equals("DRAW")) {
-                request.setAction(Action.DRAW);
-            } else {
-                request.setAction(Action.GUESS);
-            }
-            sendRequest(request);
+            while (true) {
+//                Wait for instructions from Server
+                response = getResponse();
+                if (response.getMessage().equals("DRAW")) {
+                    request.setAction(Action.DRAW);
+                } else {
+                    request.setAction(Action.GUESS);
+                }
+                sendRequest(request);
 //            Wait for server response
-            response = getResponse();
-            System.out.println("Server: " + response.getMessage() + " [" + id + "]");
+                response = getResponse();
+                System.out.println("Server: " + response.getMessage() + " [" + id + "]");
 //            Wait for results from croupier
-            response = getResponse();
-            System.out.println("Croupier: " + response.getMessage() + " [" + id + "]");
+                response = getResponse();
+                System.out.println("Croupier: " + response.getMessage() + " [" + id + "]");
 
-            if (request.getAction() == Action.DRAW && response.getResult() == Result.FAILURE) close();
-
+                if (request.getAction() == Action.DRAW && response.getResult() == Result.FAILURE) {
+                    request.setAction(Action.LEAVE);
+                    sendRequest(request);
+                    break;
+                }
+            }
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
+        }
+        finally {
             close();
         }
     }
