@@ -18,16 +18,18 @@ public class Server implements Runnable {
     private Response response;
     private Table table;
     private Player player;
+    Croupier croupier;
 
     private Gson gson;
 
-    public Server(Socket socket, Table table) throws IOException {
+    public Server(Socket socket, Table table, Croupier croupier) throws IOException {
         this.socket = socket;
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()), true);
 
         response = new Response();
         this.table = table;
+        this.croupier = croupier;
 
         gson = new Gson();
     }
@@ -57,14 +59,34 @@ public class Server implements Runnable {
                     sendResponse(response);
                 } else if (request.getAction() == Action.DRAW) {
                     Stick stick = player.draw();
-                    Croupier.setStick(stick);
+                    croupier.setStick(stick);
                     System.out.println("Player " + player.getId() + " draw " + stick.toString());
+//                    Wait for other players to complete their action
+                    croupier.await();
+                    System.out.println(player.getResult());
+                    System.out.println("Barrier has broken");
+                    if (player.getResult()) {
+                        response.setResult(Result.SUCCESS);
+                        response.setMessage("You are safe!");
+                        sendResponse(response);
+                    } else {
+                        leaveTable();
+                        break;
+                    }
                 } else if (request.getAction() == Action.GUESS) {
                     player.guess();
                     System.out.println("Player " + player.getId() + " guessed: " + player.getGuess());
-                } else if (request.getAction() == Action.LEAVE) {
-                    leaveTable();
-                    break;
+//                    Wait for other players to complete their action
+                    croupier.await();
+                    System.out.println("Barrier has broken");
+                    if (player.getResult()) {
+                        response.setResult(Result.SUCCESS);
+                        response.setMessage("Correct!");
+                    } else {
+                        response.setResult(Result.FAILURE);
+                        response.setMessage("Wrong!");
+                    }
+                    sendResponse(response);
                 }
             }
 
@@ -90,7 +112,7 @@ public class Server implements Runnable {
 //    Leave table
     public void leaveTable() {
         table.releaseSeat(player);
-        response.setResult(Result.SUCCESS);
+        response.setResult(Result.FAILURE);
         response.setMessage("You left the table");
         sendResponse(response);
     }

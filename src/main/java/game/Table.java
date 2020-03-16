@@ -8,31 +8,20 @@ import java.util.List;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.Semaphore;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Table {
+
+    public static final int TOTAL_PLAYERS = 6;
+    private static List<Player> players;
 
     private Semaphore semaphore;
     private CyclicBarrier barrier;
 
-    private static List<Player> players;
-    private static AtomicBoolean availableSeats;
 
     public Table(int n) {
-        semaphore = new Semaphore(n);
-        barrier = new CyclicBarrier(n, barrierAction());
         players = new ArrayList<Player>();
-        availableSeats = new AtomicBoolean(true);
-    }
-
-//    Start the game
-    public Runnable barrierAction() {
-        return new Runnable() {
-            @Override
-            public void run() {
-                Croupier.startGame();
-            }
-        };
+        semaphore = new Semaphore(n);
+        barrier = new CyclicBarrier(n, Croupier.startGame());
     }
 
     public void await() {
@@ -49,10 +38,6 @@ public class Table {
 
         if (semaphore.tryAcquire()) {
             players.add(player);
-            if (players.toArray().length == 6) {
-                availableSeats.set(false);
-            }
-
             return true;
         }
 
@@ -61,12 +46,7 @@ public class Table {
 
     public void releaseSeat(Player player) {
         players.remove(player);
-        availableSeats.set(true);
         semaphore.release();
-    }
-
-    public static boolean isFull() {
-        return availableSeats.get();
     }
 
     public static List<Player> getPlayers() {

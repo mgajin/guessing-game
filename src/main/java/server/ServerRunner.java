@@ -22,7 +22,7 @@ public class ServerRunner {
 
         while (true) {
             Socket socket = serverSocket.accept();
-            executor.submit(new Server(socket, table));
+            executor.submit(new Server(socket, table, croupier));
         }
 
 //        executor.shutdown();

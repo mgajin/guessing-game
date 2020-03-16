@@ -13,6 +13,7 @@ public class Player {
     private int points;
     private Action action;
     private Stick guess;
+    private boolean result;
 
     public Player(UUID id) {
         this.id = id;
@@ -21,7 +22,7 @@ public class Player {
 
     public Stick draw() {
 
-        int i = new Random().nextInt(6);
+        int i = new Random().nextInt(Table.TOTAL_PLAYERS);
 
         return Croupier.getSticks()[i];
     }
@@ -30,8 +31,20 @@ public class Player {
         guess = (new Random().nextBoolean()) ? Stick.SHORT : Stick.LONG;
     }
 
+    public void givePoint() {
+        points++;
+    }
+
     public int getPoints() {
         return points;
+    }
+
+    public boolean getResult() {
+        return result;
+    }
+
+    public void setResult(boolean result) {
+        this.result = result;
     }
 
     public void setAction(Action action) {

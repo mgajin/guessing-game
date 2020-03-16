@@ -1,6 +1,7 @@
 package client;
 
 import com.google.gson.Gson;
+import game.Croupier;
 import model.Action;
 import model.Request;
 import model.Response;
@@ -65,8 +66,9 @@ public class Client implements Runnable {
                 request.setAction(Action.GUESS);
             }
             sendRequest(request);
+//            Wait for results
             response = getResponse();
-            System.out.println(response.getMessage());
+            System.out.println(response.getMessage() + " idk...");
 
         } catch (IOException e) {
             e.printStackTrace();
